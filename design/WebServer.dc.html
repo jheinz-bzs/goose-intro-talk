@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>So I Built a Web Server</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/bizstream/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Poppins:wght@600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+.dash{animation:stream-in .6s cubic-bezier(0.34,1.56,0.64,1) both;animation-delay:calc(var(--d,0ms) * .5)}
+@keyframes stream-in{from{opacity:0;transform:translateX(160px)}}
+@media (prefers-reduced-motion: reduce){.dash{animation:none}}
+.card{background:#2A4C8F;border-radius:20px;padding:48px 40px 44px;display:flex;flex-direction:column;gap:30px}
+.card-head{display:flex;justify-content:space-between;align-items:baseline}
+.card-title{margin:0;font-size:24px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#56C5E8}
+.legend{display:flex;gap:22px;font-size:22px;color:#DCE8F5}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{display:inline-block;width:26px;height:10px;border-radius:9999px}
+.stat{display:flex;align-items:baseline;gap:18px}
+.stat b{font-family:'Poppins','Helvetica Neue',Arial,sans-serif;font-size:76px;line-height:1;font-weight:800;color:#FFFFFF}
+.stat span{font-size:28px;font-weight:500;color:#DCE8F5}
+svg text{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif}
+</style>
+</helmet>
+<div style="position: relative; width: 1920px; height: 1080px; box-sizing: border-box; padding: 110px 150px 0; display: flex; flex-direction: column; gap: 22px; background: #1F3D7A; font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; color: #FFFFFF; overflow: hidden;">
+  <div aria-hidden="true" style="position: absolute; top: 96px; right: -30px; display: flex; flex-direction: column; align-items: flex-end; gap: 12px;">
+    <div style="display: flex; gap: 10px;">
+      <div class="dash" style="--d: 0ms; width: 90px; height: 14px; border-radius: 9999px; background: #56C5E8;"></div>
+      <div class="dash" style="--d: 25ms; width: 60px; height: 14px; border-radius: 9999px; background: #163470;"></div>
+      <div class="dash" style="--d: 50ms; width: 110px; height: 14px; border-radius: 9999px; background: #3F64C8;"></div>
+      <div class="dash" style="--d: 75ms; width: 40px; height: 14px; border-radius: 9999px; background: #F2434A;"></div>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <div class="dash" style="--d: 100ms; width: 80px; height: 14px; border-radius: 9999px; background: #3F64C8;"></div>
+      <div class="dash" style="--d: 125ms; width: 120px; height: 14px; border-radius: 9999px; background: #56C5E8;"></div>
+      <div class="dash" style="--d: 150ms; width: 50px; height: 14px; border-radius: 9999px; background: #163470;"></div>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <div class="dash" style="--d: 175ms; width: 46px; height: 14px; border-radius: 9999px; background: #56C5E8;"></div>
+      <div class="dash" style="--d: 200ms; width: 120px; height: 14px; border-radius: 9999px; background: #163470;"></div>
+      <div class="dash" style="--d: 225ms; width: 70px; height: 14px; border-radius: 9999px; background: #3F64C8;"></div>
+      <div class="dash" style="--d: 250ms; width: 100px; height: 14px; border-radius: 9999px; background: #56C5E8;"></div>
+    </div>
+  </div>
+
+  <p style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #56C5E8;">The Experiment</p>
+  <h2 style="margin: 0; font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif; font-size: 96px; line-height: 1.05; font-weight: 800; letter-spacing: -0.01em;">So I Built a Web Server</h2>
+  <p style="margin: 0; font-size: 34px; font-weight: 500; color: #DCE8F5;">Fast language. Fast web server?</p>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 60px; margin-top: 56px;">
+
+    <div class="card">
+      <div class="card-head">
+        <p class="card-title">Todo API · req/s</p>
+        <div class="legend">
+          <span><i style="background:#56C5E8"></i>Goose</span>
+          <span><i style="background:#8FA9E8"></i>Express</span>
+          <span><i style="background:#F2434A"></i>Flask</span>
+        </div>
+      </div>
+      <svg viewBox="0 0 700 300" width="700" height="300" role="img" aria-label="Requests per second by number of clients. Goose peaks at 178,118, Express at 59,325, Flask at 2,553.">
+        <g stroke="#3D5FA3" stroke-width="1.5">
+          <line x1="60" y1="10" x2="680" y2="10"/>
+          <line x1="60" y1="70" x2="680" y2="70"/>
+          <line x1="60" y1="130" x2="680" y2="130"/>
+          <line x1="60" y1="190" x2="680" y2="190"/>
+        </g>
+        <line x1="60" y1="250" x2="680" y2="250" stroke="#7F9AD1" stroke-width="2"/>
+        <g fill="#A9BEDF" font-size="18" text-anchor="end">
+          <text x="48" y="16">200k</text>
+          <text x="48" y="76">150k</text>
+          <text x="48" y="136">100k</text>
+          <text x="48" y="196">50k</text>
+          <text x="48" y="256">0</text>
+        </g>
+        <g fill="#A9BEDF" font-size="18" text-anchor="middle">
+          <text x="60" y="280">1</text>
+          <text x="215" y="280">16</text>
+          <text x="370" y="280">64</text>
+          <text x="525" y="280">256</text>
+          <text x="680" y="280">512</text>
+          <text x="370" y="300" font-size="16">clients</text>
+        </g>
+        <polyline points="60,246.9 215,247.1 370,247.1 525,247.3 680,247.4" fill="none" stroke="#F2434A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="60,216.6 215,178.8 370,179.2 525,183.9 680,192.3" fill="none" stroke="#8FA9E8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="60,188.8 215,48.2 370,36.3 525,43.6 680,50.8" fill="none" stroke="#56C5E8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <g fill="#56C5E8">
+          <circle cx="60" cy="188.8" r="7"/><circle cx="215" cy="48.2" r="7"/><circle cx="370" cy="36.3" r="9"/><circle cx="525" cy="43.6" r="7"/><circle cx="680" cy="50.8" r="7"/>
+        </g>
+        <g fill="#8FA9E8">
+          <circle cx="60" cy="216.6" r="6"/><circle cx="215" cy="178.8" r="6"/><circle cx="370" cy="179.2" r="6"/><circle cx="525" cy="183.9" r="6"/><circle cx="680" cy="192.3" r="6"/>
+        </g>
+        <text x="370" y="24" fill="#FFFFFF" font-size="20" font-weight="700" text-anchor="middle">178k</text>
+        <text x="370" y="168" fill="#DCE8F5" font-size="20" font-weight="600" text-anchor="middle">59k</text>
+        <text x="370" y="238" fill="#FFB0B1" font-size="20" font-weight="600" text-anchor="middle">2.4k</text>
+      </svg>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <p class="card-title">Shop site</p>
+        <div class="legend">
+          <span><i style="background:#56C5E8"></i>Goose</span>
+          <span><i style="background:#8FA9E8"></i>Next.js</span>
+        </div>
+      </div>
+      <svg viewBox="0 0 700 300" width="700" height="300" role="img" aria-label="Goose shop site against Next.js and Svelte. 223 thousand pages per second against 13.6 thousand. 2 MB at rest against 105. First page in 6 ms against 267. Deploy size 0.4 MB against 375. 1.5 KB of JavaScript against 21.7.">
+        <g stroke="#3D5FA3" stroke-width="1.5">
+          <line x1="0" y1="65" x2="700" y2="65"/><line x1="0" y1="140" x2="700" y2="140"/><line x1="0" y1="215" x2="700" y2="215"/>
+        </g>
+        <text x="0" y="32" font-size="22" font-weight="600" fill="#FFFFFF">Req/s</text>
+        <rect x="240" y="14" width="220" height="18" rx="6" fill="#56C5E8"/>
+        <rect x="240" y="38" width="13.4" height="18" rx="6" fill="#8FA9E8"/>
+        <text x="470.0" y="29" font-size="16" font-weight="700" fill="#56C5E8">223k</text>
+        <text x="263.4" y="53" font-size="16" font-weight="600" fill="#DCE8F5">13.6k</text>
+        <text x="0" y="107" font-size="22" font-weight="600" fill="#FFFFFF">Memory at rest</text>
+        <rect x="240" y="89" width="6" height="18" rx="6" fill="#56C5E8"/>
+        <rect x="240" y="113" width="220" height="18" rx="6" fill="#8FA9E8"/>
+        <text x="256.0" y="104" font-size="16" font-weight="700" fill="#56C5E8">2 MB</text>
+        <text x="470.0" y="128" font-size="16" font-weight="600" fill="#DCE8F5">105 MB</text>
+        <text x="0" y="182" font-size="22" font-weight="600" fill="#FFFFFF">Startup</text>
+        <rect x="240" y="164" width="6" height="18" rx="6" fill="#56C5E8"/>
+        <rect x="240" y="188" width="220" height="18" rx="6" fill="#8FA9E8"/>
+        <text x="256.0" y="179" font-size="16" font-weight="700" fill="#56C5E8">6 ms</text>
+        <text x="470.0" y="203" font-size="16" font-weight="600" fill="#DCE8F5">267 ms</text>
+        <text x="0" y="257" font-size="22" font-weight="600" fill="#FFFFFF">Deploy size</text>
+        <rect x="240" y="239" width="6" height="18" rx="6" fill="#56C5E8"/>
+        <rect x="240" y="263" width="220" height="18" rx="6" fill="#8FA9E8"/>
+        <text x="256.0" y="254" font-size="16" font-weight="700" fill="#56C5E8">0.4 MB</text>
+        <text x="470.0" y="278" font-size="16" font-weight="600" fill="#DCE8F5">375 MB</text>
+      </svg>
+    </div>
+  </div>
+
+  <p style="position: absolute; left: 150px; bottom: 40px; margin: 0; font-size: 20px; color: #A9BEDF;">One worker each, same machine.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":1080}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

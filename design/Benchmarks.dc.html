@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fast and Lean</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/bizstream/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Poppins:wght@600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+.dash{animation:stream-in .6s cubic-bezier(0.34,1.56,0.64,1) both;animation-delay:calc(var(--d,0ms) * .5)}
+@keyframes stream-in{from{opacity:0;transform:translateX(160px)}}
+@media (prefers-reduced-motion: reduce){.dash{animation:none}}
+.card{background:#2A4C8F;border-radius:20px;padding:48px 40px 44px;display:flex;flex-direction:column;gap:30px}
+.card-head{display:flex;justify-content:space-between;align-items:baseline}
+.card-title{margin:0;font-size:24px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#56C5E8}
+.legend{display:flex;gap:22px;font-size:22px;color:#DCE8F5}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{display:inline-block;width:26px;height:10px;border-radius:9999px}
+.stat{display:flex;align-items:baseline;gap:18px}
+.stat b{font-family:'Poppins','Helvetica Neue',Arial,sans-serif;font-size:76px;line-height:1;font-weight:800;color:#FFFFFF}
+.stat span{font-size:28px;font-weight:500;color:#DCE8F5}
+svg text{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif}
+</style>
+</helmet>
+<div style="position: relative; width: 1920px; height: 1080px; box-sizing: border-box; padding: 110px 150px 0; display: flex; flex-direction: column; gap: 22px; background: #1F3D7A; font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; color: #FFFFFF; overflow: hidden;">
+  <div aria-hidden="true" style="position: absolute; top: 96px; right: -30px; display: flex; flex-direction: column; align-items: flex-end; gap: 12px;">
+    <div style="display: flex; gap: 10px;">
+      <div class="dash" style="--d: 0ms; width: 130px; height: 14px; border-radius: 9999px; background: #56C5E8;"></div>
+      <div class="dash" style="--d: 25ms; width: 60px; height: 14px; border-radius: 9999px; background: #163470;"></div>
+      <div class="dash" style="--d: 50ms; width: 110px; height: 14px; border-radius: 9999px; background: #3F64C8;"></div>
+      <div class="dash" style="--d: 75ms; width: 40px; height: 14px; border-radius: 9999px; background: #F2434A;"></div>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <div class="dash" style="--d: 100ms; width: 80px; height: 14px; border-radius: 9999px; background: #3F64C8;"></div>
+      <div class="dash" style="--d: 125ms; width: 150px; height: 14px; border-radius: 9999px; background: #56C5E8;"></div>
+      <div class="dash" style="--d: 150ms; width: 50px; height: 14px; border-radius: 9999px; background: #163470;"></div>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <div class="dash" style="--d: 175ms; width: 46px; height: 14px; border-radius: 9999px; background: #56C5E8;"></div>
+      <div class="dash" style="--d: 200ms; width: 120px; height: 14px; border-radius: 9999px; background: #163470;"></div>
+      <div class="dash" style="--d: 225ms; width: 70px; height: 14px; border-radius: 9999px; background: #3F64C8;"></div>
+      <div class="dash" style="--d: 250ms; width: 100px; height: 14px; border-radius: 9999px; background: #56C5E8;"></div>
+    </div>
+  </div>
+
+  <p style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #56C5E8;">Benchmarks</p>
+  <h2 style="margin: 0; font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif; font-size: 96px; line-height: 1.05; font-weight: 800; letter-spacing: -0.01em;">Fast and Lean</h2>
+  <p style="margin: 0; font-size: 34px; font-weight: 500; color: #DCE8F5;">Goose against C++ and Rust.</p>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 60px; margin-top: 56px;">
+
+    <div class="card">
+      <div class="card-head">
+        <p class="card-title">Goose advantage</p>
+        <div class="legend">
+          <span><i style="background:#56C5E8"></i>Speed</span>
+          <span><i style="background:#8FA9E8"></i>Memory</span>
+        </div>
+      </div>
+      <svg viewBox="0 0 700 300" width="700" height="300" role="img" aria-label="Goose advantage. Against idiomatic C++: 3.54 times faster, 1.95 times less memory. Against expert C++: 1.26 and 1.32. Against safe Rust: 1.19 and 1.25.">
+        <g stroke="#3D5FA3" stroke-width="1.5">
+          <line x1="410" y1="14" x2="410" y2="270"/>
+          <line x1="520" y1="14" x2="520" y2="270"/>
+          <line x1="630" y1="14" x2="630" y2="270"/>
+        </g>
+        <line x1="190" y1="14" x2="190" y2="270" stroke="#7F9AD1" stroke-width="2"/>
+        <line x1="300" y1="14" x2="300" y2="270" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="6 6" opacity=".7"/>
+        <g fill="#A9BEDF" font-size="18" text-anchor="middle">
+          <text x="190" y="294">0</text>
+          <text x="300" y="294">1×</text>
+          <text x="410" y="294">2×</text>
+          <text x="520" y="294">3×</text>
+          <text x="630" y="294">4×</text>
+        </g>
+        <g font-size="24" font-weight="600" fill="#FFFFFF">
+          <text x="0" y="57">Everyday</text><text x="0" y="83" font-size="20" fill="#A9BEDF" font-weight="500">C++</text>
+          <text x="0" y="143">Expert</text><text x="0" y="169" font-size="20" fill="#A9BEDF" font-weight="500">C++</text>
+          <text x="0" y="229">Safe</text><text x="0" y="255" font-size="20" fill="#A9BEDF" font-weight="500">Rust</text>
+        </g>
+        <rect x="190" y="38" width="389.4" height="26" rx="8" fill="#56C5E8"/>
+        <rect x="190" y="68" width="214.5" height="26" rx="8" fill="#8FA9E8"/>
+        <rect x="190" y="124" width="138.6" height="26" rx="8" fill="#56C5E8"/>
+        <rect x="190" y="154" width="145.2" height="26" rx="8" fill="#8FA9E8"/>
+        <rect x="190" y="210" width="130.9" height="26" rx="8" fill="#56C5E8"/>
+        <rect x="190" y="240" width="137.5" height="26" rx="8" fill="#8FA9E8"/>
+        <g font-size="20" font-weight="700">
+          <text x="591" y="58" fill="#56C5E8">3.54×</text>
+          <text x="417" y="88" fill="#DCE8F5">1.95×</text>
+          <text x="341" y="144" fill="#56C5E8">1.26×</text>
+          <text x="347" y="174" fill="#DCE8F5">1.32×</text>
+          <text x="333" y="230" fill="#56C5E8">1.19×</text>
+          <text x="340" y="260" fill="#DCE8F5">1.25×</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <p class="card-title">Memory · 16M records</p>
+        
+      </div>
+      <svg viewBox="0 0 700 300" width="700" height="300" role="img" aria-label="Records benchmark, 16 million records. Goose 149 MB in 0.44 s. Rust 593 MB in 0.89 s. Expert C++ 557 MB in 0.63 s. Everyday C++ 713 MB in 1.68 s.">
+        <g stroke="#3D5FA3" stroke-width="1.5">
+          <line x1="255" y1="14" x2="255" y2="270"/>
+          <line x1="340" y1="14" x2="340" y2="270"/>
+          <line x1="425" y1="14" x2="425" y2="270"/>
+          <line x1="510" y1="14" x2="510" y2="270"/>
+        </g>
+        <line x1="170" y1="14" x2="170" y2="270" stroke="#7F9AD1" stroke-width="2"/>
+        <g fill="#A9BEDF" font-size="18" text-anchor="middle">
+          <text x="170" y="294">0</text>
+          <text x="255" y="294">200</text>
+          <text x="340" y="294">400</text>
+          <text x="425" y="294">600</text>
+          <text x="510" y="294">800 MB</text>
+        </g>
+        <g font-size="24" font-weight="600" fill="#FFFFFF">
+          <text x="0" y="56">Goose</text>
+          <text x="0" y="120">Rust</text>
+          <text x="0" y="172">Expert</text><text x="0" y="196" font-size="20" fill="#A9BEDF" font-weight="500">C++</text>
+          <text x="0" y="236">Everyday</text><text x="0" y="260" font-size="20" fill="#A9BEDF" font-weight="500">C++</text>
+        </g>
+        <rect x="170" y="30" width="63.3" height="34" rx="8" fill="#56C5E8"/>
+        <rect x="170" y="94" width="252" height="34" rx="8" fill="#F2434A"/>
+        <rect x="170" y="158" width="236.7" height="34" rx="8" fill="#8FA9E8"/>
+        <rect x="170" y="222" width="303" height="34" rx="8" fill="#8FA9E8" opacity=".6"/>
+        <g font-size="22" font-weight="700">
+          <text x="247" y="55" fill="#56C5E8">149 MB</text>
+          <text x="436" y="119" fill="#FFB0B1">593 MB</text>
+          <text x="421" y="183" fill="#DCE8F5">557 MB</text>
+          <text x="487" y="247" fill="#DCE8F5">713 MB</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <p style="position: absolute; left: 150px; bottom: 40px; margin: 0; font-size: 20px; color: #A9BEDF;">Source: aardappel.github.io/goose/bench</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":1080}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

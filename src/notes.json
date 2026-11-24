@@ -1,0 +1,462 @@
+{
+  "key": "goose-intro",
+  "title": "How Goose Works Presenter",
+  "session_title": "How Goose Works",
+  "notes": {
+    "title:intro": {
+      "items": [
+        [
+          "SAY",
+          "Goose is a memory-safe systems language, and this is the quick tour."
+        ],
+        [
+          "SAY",
+          "In about five minutes: what it is, how it builds, and how it treats memory."
+        ],
+        [
+          "ASK",
+          "Who here has fought a borrow checker or tuned a garbage collector?",
+          "Q-1"
+        ],
+        [
+          "LEAVE",
+          "The room knows this is a short, high-level tour."
+        ]
+      ],
+      "tips": [
+        [
+          "Where it comes from",
+          "Goose SDK v2026.4. Docs: ~/Documents/goose/goose-sdk/goose-v2026.4-macos-arm64/docs/ (start with index.md and tutorial.md)."
+        ]
+      ]
+    },
+    "what:intro": {
+      "items": [
+        [
+          "SAY",
+          "Goose is a systems language for fast programs that cannot corrupt memory."
+        ],
+        [
+          "SAY",
+          "Three points: it runs like C, it has no garbage collector, and it is safe by default."
+        ],
+        [
+          "SHOW",
+          "The hello program: one function, one print."
+        ],
+        [
+          "LEAVE",
+          "Fast like C, no GC, safe by default."
+        ]
+      ],
+      "tips": [
+        [
+          "If asked about syntax",
+          "It reads like C or Rust: statically typed, with inference, in .goose files. See ~/Documents/goose/goose-sdk/goose-v2026.4-macos-arm64/docs/tutorial.md."
+        ],
+        [
+          "If asked how run is instant",
+          "goose run compiles in memory with the bundled TinyCC; goose build hands the C to the system compiler (clang). See ~/Documents/goose/goose-sdk/goose-v2026.4-macos-arm64/docs/command_line.md."
+        ]
+      ]
+    },
+    "pipeline:source": {
+      "items": [
+        [
+          "SHOW",
+          "The first box: your source file, app.goose."
+        ],
+        [
+          "SAY",
+          "You write ordinary Goose code in a .goose file."
+        ]
+      ]
+    },
+    "pipeline:c": {
+      "items": [
+        [
+          "SHOW",
+          "An arrow to the second box: one C file."
+        ],
+        [
+          "SAY",
+          "Goose turns all your code into a single C file."
+        ]
+      ],
+      "tips": [
+        [
+          "For detail questions",
+          "The compiler stages are covered in ~/Documents/goose/goose-sdk/goose-v2026.4-macos-arm64/docs/implementation.md; keep them for the longer talk."
+        ]
+      ]
+    },
+    "pipeline:program": {
+      "items": [
+        [
+          "SHOW",
+          "The last arrow lands on your program."
+        ],
+        [
+          "SAY",
+          "A C compiler does the rest, so you get a native, fast program."
+        ],
+        [
+          "LEAVE",
+          "Goose compiles to C and gets out of the way."
+        ]
+      ],
+      "tips": [
+        [
+          "Run versus build",
+          "goose run uses the bundled TinyCC for instant runs; goose build uses clang or another system C compiler for an optimized binary."
+        ]
+      ]
+    },
+    "memory:typical": {
+      "items": [
+        [
+          "SHOW",
+          "The left panel: most languages have a stack and a heap."
+        ],
+        [
+          "SAY",
+          "The heap needs a garbage collector, or you free memory by hand."
+        ]
+      ]
+    },
+    "memory:goose": {
+      "items": [
+        [
+          "SHOW",
+          "The right panel starts as the same picture."
+        ],
+        [
+          "SAY",
+          "Same picture to start."
+        ]
+      ]
+    },
+    "heap:alloc": {
+      "items": [
+        [
+          "SHOW",
+          "The first column: cheap to allocate."
+        ],
+        [
+          "SAY",
+          "New data goes on top of the stack, like stacking plates."
+        ]
+      ]
+    },
+    "heap:cleanup": {
+      "items": [
+        [
+          "SHOW",
+          "The second column: cleanup is automatic."
+        ],
+        [
+          "SAY",
+          "When a block ends, its memory is gone. No collector, no pauses."
+        ]
+      ]
+    },
+    "heap:stays": {
+      "items": [
+        [
+          "SHOW",
+          "The third column: data stays put."
+        ],
+        [
+          "SAY",
+          "Values never move, so references to them stay valid."
+        ],
+        [
+          "LEAVE",
+          "No heap means simpler memory, faster programs, and no pauses."
+        ]
+      ]
+    },
+    "safety:top": {
+      "items": [
+        [
+          "SHOW",
+          "The top row: null and bounds."
+        ],
+        [
+          "SAY",
+          "If a value can be missing, you have to check it."
+        ],
+        [
+          "SAY",
+          "Every array access is checked."
+        ]
+      ],
+      "tips": [
+        [
+          "If asked about nullable values",
+          "Missing values are written T?, and the compiler makes you handle the empty case."
+        ],
+        [
+          "If asked about speed",
+          "The optimizer removes many bounds checks it can prove safe (bounds-check elimination)."
+        ]
+      ]
+    },
+    "safety:bottom": {
+      "items": [
+        [
+          "SHOW",
+          "The bottom row: dangling references and data races."
+        ],
+        [
+          "SAY",
+          "A reference cannot outlive the data it points to."
+        ],
+        [
+          "SAY",
+          "Threads do not share memory; they pass messages."
+        ],
+        [
+          "LEAVE",
+          "The compiler catches these before your program ever runs."
+        ]
+      ],
+      "tips": [
+        [
+          "If asked about threads",
+          "Threads communicate with queues instead of shared state. See ~/Documents/goose/goose-sdk/goose-v2026.4-macos-arm64/docs/goose_spec.md."
+        ]
+      ]
+    },
+    "bench:intro": {
+      "items": [
+        [
+          "SAY",
+          "Speed and memory against C++ and Rust, from the public Goose benchmarks."
+        ],
+        [
+          "SAY",
+          "The left card is how much better Goose is: above 1x means Goose wins."
+        ]
+      ],
+      "tips": [
+        [
+          "Source",
+          "aardappel.github.io/goose/bench"
+        ]
+      ]
+    },
+    "bench:everyday": {
+      "items": [
+        [
+          "SHOW",
+          "The right card: memory for 16 million records. Everyday C++ is 713 MB."
+        ],
+        [
+          "SAY",
+          "Idiomatic C++ is the baseline here."
+        ]
+      ]
+    },
+    "bench:expert": {
+      "items": [
+        [
+          "SAY",
+          "Expert C++ gets down to 557 MB. Notice the bar above shrinks to keep the scale fair."
+        ]
+      ]
+    },
+    "bench:rust": {
+      "items": [
+        [
+          "SAY",
+          "Safe Rust lands at 593 MB, in the same neighbourhood."
+        ]
+      ]
+    },
+    "bench:goose": {
+      "items": [
+        [
+          "SAY",
+          "Goose does it in 149 MB. Watch how everything else stretches to keep the scale honest."
+        ],
+        [
+          "LEAVE",
+          "Goose is fast and lean."
+        ]
+      ]
+    },
+    "web:intro": {
+      "items": [
+        [
+          "SAY",
+          "So I wondered: fast language, fast web server? I built one and measured it."
+        ],
+        [
+          "SAY",
+          "Left, a todo API under load. Right, a shop site."
+        ]
+      ],
+      "tips": [
+        [
+          "Where the numbers come from",
+          "The user's own goose-bench results, one worker each on the same machine."
+        ]
+      ]
+    },
+    "web:flask": {
+      "items": [
+        [
+          "SAY",
+          "Flask, a typical Python server, tops out around 2.5 thousand requests a second."
+        ]
+      ]
+    },
+    "web:express": {
+      "items": [
+        [
+          "SAY",
+          "Express handles about 59 thousand, and Flask is squashed against the floor."
+        ]
+      ]
+    },
+    "web:goose": {
+      "items": [
+        [
+          "SAY",
+          "Goose reaches about 178 thousand, three times Express. Everything else shrinks again."
+        ]
+      ]
+    },
+    "web:pages-next": {
+      "items": [
+        [
+          "SHOW",
+          "Shop site: requests per second."
+        ],
+        [
+          "SAY",
+          "Next.js, a popular JavaScript framework, serves 13.6 thousand requests a second."
+        ]
+      ]
+    },
+    "web:pages-goose": {
+      "items": [
+        [
+          "SAY",
+          "Goose serves 223 thousand requests a second, about sixteen times more."
+        ],
+        [
+          "SAY",
+          "Production Node runs more workers, so the gap shrinks on a bigger box. This is one worker each."
+        ]
+      ]
+    },
+    "web:memory-next": {
+      "items": [
+        [
+          "SAY",
+          "Memory at rest: Next.js sits at 105 MB."
+        ]
+      ]
+    },
+    "web:memory-goose": {
+      "items": [
+        [
+          "SAY",
+          "Goose idles at 2 MB."
+        ]
+      ]
+    },
+    "web:startup-next": {
+      "items": [
+        [
+          "SAY",
+          "Next.js takes 267 ms to serve the first page."
+        ]
+      ]
+    },
+    "web:startup-goose": {
+      "items": [
+        [
+          "SAY",
+          "Goose does it in 6 ms."
+        ]
+      ]
+    },
+    "web:deploy-next": {
+      "items": [
+        [
+          "SAY",
+          "The Next.js deploy is 375 MB."
+        ]
+      ]
+    },
+    "web:deploy-goose": {
+      "items": [
+        [
+          "SAY",
+          "Goose deploys at 0.4 MB."
+        ],
+        [
+          "LEAVE",
+          "A fast language gives you a fast, tiny web server."
+        ]
+      ]
+    },
+    "next:intro": {
+      "items": [
+        [
+          "SAY",
+          "Replace the placeholder title [NEXT SECTION TITLE] with the real section title before presenting."
+        ],
+        [
+          "SAY",
+          "Recap: compiles to C, stacks not a heap, checked before it runs."
+        ],
+        [
+          "LEAVE",
+          "Hand off to the next section."
+        ]
+      ]
+    },
+    "memory:stacks": {
+      "items": [
+        [
+          "SHOW",
+          "Stack becomes Stacks."
+        ],
+        [
+          "SAY",
+          "Goose starts from the same picture but uses stacks."
+        ]
+      ]
+    },
+    "memory:pop": {
+      "items": [
+        [
+          "SHOW",
+          "The Heap chip inflates and pops."
+        ],
+        [
+          "SAY",
+          "...and drops the heap entirely."
+        ],
+        [
+          "SAY",
+          "Memory is handed out in order and given back when a block ends."
+        ],
+        [
+          "LEAVE",
+          "Goose only uses stacks."
+        ]
+      ],
+      "tips": [
+        [
+          "For detail questions",
+          "Goose uses data stacks with a bump pointer: allocating moves a pointer, leaving a block resets it. See ~/Documents/goose/goose-sdk/goose-v2026.4-macos-arm64/docs/goose_spec.md."
+        ]
+      ]
+    }
+  }
+}

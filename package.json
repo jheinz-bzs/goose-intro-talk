@@ -1,0 +1,24 @@
+{
+  "name": "goose-intro-talk",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "vite",
+    "serve": "vite",
+    "build": "tsc && vite build",
+    "present": "node tools/prerender.mjs && vite build -c vite.present.config.ts && vite preview -c vite.present.config.ts",
+    "prerender": "node tools/prerender.mjs"
+  },
+  "dependencies": {
+    "@canvas-commons/2d": "^0.4.0",
+    "@canvas-commons/core": "^0.4.0",
+    "@canvas-commons/webcodecs": "^0.4.0"
+  },
+  "devDependencies": {
+    "@canvas-commons/editor": "^0.4.0",
+    "@canvas-commons/vite-plugin": "^0.4.0",
+    "playwright": "1.58.0",
+    "typescript": "^5.2.2",
+    "vite": "^8.0.0"
+  }
+}

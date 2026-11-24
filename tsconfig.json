@@ -1,0 +1,9 @@
+{
+  "extends": "@canvas-commons/2d/tsconfig.project.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "paths": {"#backend": ["./src/presenter/backend-live.ts"]}
+  },
+  "include": ["src"]
+}
