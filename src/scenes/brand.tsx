@@ -16,13 +16,14 @@ export const C = {
 
 export const HEAD = "Poppins, 'Helvetica Neue', Arial, sans-serif";
 export const BODY = "Montserrat, 'Helvetica Neue', Arial, sans-serif";
-export const MONO = "ui-monospace, 'SF Mono', Menlo, Consolas, monospace";
+export const MONO = "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace";
 
 const FONT_URL =
-  'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap';
+  'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@400&display=swap';
 const FACES: [string, number[]][] = [
   ['Poppins', [600, 700, 800]],
   ['Montserrat', [400, 500, 600]],
+  ['JetBrains Mono', [400]],
 ];
 
 function stylesheetReady(): Promise<void> {
@@ -239,20 +240,28 @@ export function Svg(props: {ref?: any; text: any; x: any; y: any; size: number; 
 }
 
 /** The 780x453 card of the Benchmarks and Web Server designs, with its title; content is placed in absolute stage coordinates. */
-export function Card(props: {x: number; title: string}) {
+export function Card(props: {x: number; title?: string; y?: number; width?: number; height?: number; plain?: boolean}) {
+  const {x, y = 404, width = 780, height = 453} = props;
   return (
     <>
-      <Rect x={props.x} y={404} width={780} height={453} radius={20} fill={C.panel} anchor={[-1, -1]} />
-      <T text={props.title.toUpperCase()} x={props.x + 40} y={452} size={24} weight={600} color={C.cyan} lineHeight={29} letterSpacing={2.88} />
+      <Rect x={x} y={y} width={width} height={height} radius={20} fill={C.panel} anchor={[-1, -1]} />
+      {props.title ? (
+        props.plain ? (
+          <T text={props.title} x={x + 40} y={y + 44} size={24} weight={600} color={C.cyan} lineHeight={29} />
+        ) : (
+          <T text={props.title.toUpperCase()} x={x + 40} y={y + 48} size={24} weight={600} color={C.cyan} lineHeight={29} letterSpacing={2.88} />
+        )
+      ) : null}
     </>
   );
 }
 
-export function LegendItem(props: {x: number; color: string; text: string}) {
+export function LegendItem(props: {x: number; color: string; text: string; y?: number}) {
+  const y = props.y ?? 464;
   return (
     <>
-      <Rect x={props.x} y={464} width={26} height={10} radius={5} fill={props.color} anchor={[-1, -1]} />
-      <Svg text={props.text} x={props.x + 34} y={477} size={22} color={C.subtitle} />
+      <Rect x={props.x} y={y} width={26} height={10} radius={5} fill={props.color} anchor={[-1, -1]} />
+      <Svg text={props.text} x={props.x + 34} y={y + 13} size={22} color={C.subtitle} />
     </>
   );
 }

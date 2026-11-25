@@ -1,4 +1,4 @@
-import {Circle, Line, Node, Rect, makeScene2D} from '@canvas-commons/2d';
+import {Circle, Line, Node, Rect, Txt, makeScene2D} from '@canvas-commons/2d';
 import {all, beginSlide, createRef, createRefArray, createSignal, delay, easeInOutCubic, easeOutCubic} from '@canvas-commons/core';
 import {C, Card, Header, LegendItem, Svg, T, addDashes, enter, hide, leave, loadBrandFonts} from './brand';
 
@@ -6,11 +6,11 @@ const EXPRESS = '#8FA9E8';
 const GRID = '#3D5FA3';
 const AXIS = '#7F9AD1';
 const MUTED = '#A9BEDF';
-const XS = [60, 215, 370, 525, 680];
-const BASE_Y = 250;
-const PLOT_H = 240;
-const BAR_X = 240;
-const BAR_FULL = 220;
+const XS = [60, 265, 470, 675, 880];
+const BASE_Y = 340;
+const PLOT_H = 330;
+const TICK_STEP = PLOT_H / 4;
+const FAIL_FULL = 360;
 
 const LINES = [
   {key: 'flask', values: [2553, 2430, 2383, 2271, 2131], color: C.red, width: 5, dot: 5},
@@ -18,14 +18,12 @@ const LINES = [
   {key: 'goose', values: [50982, 168205, 178118, 171984, 166000], color: C.cyan, width: 6, dot: 7},
 ];
 
-const SHOP = [
-  {title: 'Req/s', next: 13600, goose: 223000, nextLabel: '13.6k', gooseLabel: '223k'},
-  {title: 'Memory at rest', next: 105, goose: 2, nextLabel: '105 MB', gooseLabel: '2 MB'},
-  {title: 'Startup', next: 267, goose: 6, nextLabel: '267 ms', gooseLabel: '6 ms'},
-  {title: 'Deploy size', next: 375, goose: 0.4, nextLabel: '375 MB', gooseLabel: '0.4 MB'},
+// Failure rates at 512 clients from goose-bench SUMMARY.md; ranges draw at their upper bound.
+const FAILED = [
+  {id: 'fail1-flask', name: 'Flask', color: C.red, percent: 65, label: '63–65%', text: C.pink},
+  {id: 'fail2-express', name: 'Express', color: EXPRESS, percent: 34, label: '21–34%', text: C.subtitle},
+  {id: 'fail3-goose', name: 'Goose', color: C.cyan, percent: 0, label: '0%', text: C.cyan},
 ];
-
-const STEP_IDS = ['pages', 'memory', 'startup', 'deploy'];
 
 function format(value: number) {
   if (value >= 10000) return `${Math.round(value / 1000)}k`;
@@ -59,38 +57,36 @@ export default makeScene2D(function* (view) {
     label: createSignal(0),
     oldLabel: createSignal(0),
   }));
-  const shop = SHOP.map((row, index) => ({
+  const failed = FAILED.map((row, index) => ({
     ...row,
     index,
+    width: createSignal(0),
     group: createSignal(0),
-    nextWidth: createSignal(0),
-    gooseWidth: createSignal(0),
-    nextShow: createSignal(0),
-    gooseShow: createSignal(0),
+    show: createSignal(0),
+    value: createRef<Txt>(),
   }));
   const labelColor = {flask: C.pink, express: C.subtitle, goose: C.white};
-  const labelWeight = {flask: 600, express: 600, goose: 600};
 
   view.add(
     <Node ref={stage} x={-960} y={-540}>
       <Header items={head} kind="compact" eyebrow="The Experiment" title="So I Built a Web Server" subtitle="Fast language. Fast web server?" />
       <Node ref={cards}>
-        <Card x={150} title="Todo API · req/s" />
-        <LegendItem x={534} color={C.cyan} text="Goose" />
-        <LegendItem x={659} color={EXPRESS} text="Express" />
-        <LegendItem x={800} color={C.red} text="Flask" />
-        <Node x={190} y={513}>
-          {[10, 70, 130, 190].map(gridY => (
-            <Line points={[[60, gridY], [680, gridY]]} stroke={GRID} lineWidth={1.5} />
+        <Card x={150} y={396} width={1000} height={570} title="Todo API · req/s" />
+        <LegendItem x={754} y={456} color={C.cyan} text="Goose" />
+        <LegendItem x={879} y={456} color={EXPRESS} text="Express" />
+        <LegendItem x={1019} y={456} color={C.red} text="Flask" />
+        <Node x={214} y={505}>
+          {[1, 2, 3, 4].map(tick => (
+            <Line points={[[60, BASE_Y - tick * TICK_STEP], [880, BASE_Y - tick * TICK_STEP]]} stroke={GRID} lineWidth={1.5} />
           ))}
-          <Line points={[[60, BASE_Y], [680, BASE_Y]]} stroke={AXIS} lineWidth={2} />
+          <Line points={[[60, BASE_Y], [880, BASE_Y]]} stroke={AXIS} lineWidth={2} />
           {[0, 1, 2, 3, 4].map(tick => (
-            <Svg text={() => (tick === 0 ? '0' : format((scale() * tick) / 4))} x={48} y={BASE_Y - tick * 60 + 6} size={18} color={MUTED} align="end" />
+            <Svg text={() => (tick === 0 ? '0' : format((scale() * tick) / 4))} x={48} y={BASE_Y - tick * TICK_STEP + 7} size={22} color={MUTED} align="end" />
           ))}
           {['1', '16', '64', '256', '512'].map((text, index) => (
-            <Svg text={text} x={XS[index]} y={280} size={18} color={MUTED} align="middle" />
+            <Svg text={text} x={XS[index]} y={372} size={22} color={MUTED} align="middle" />
           ))}
-          <Svg text="clients" x={370} y={300} size={16} color={MUTED} align="middle" />
+          <Svg text="clients" x={470} y={400} size={22} color={MUTED} align="middle" />
           {lines.map(line => (
             <Node>
               <Line
@@ -116,36 +112,32 @@ export default makeScene2D(function* (view) {
           {lines.map(line => (
             <Svg
               text={format(line.values[2])}
-              x={370}
-              y={() => y(line.values[2]) - 12}
-              size={20}
-              weight={line.key === 'goose' ? 600 : labelWeight[line.key as keyof typeof labelWeight]}
+              x={470}
+              y={() => y(line.values[2]) - 14}
+              size={24}
+              weight={600}
               color={labelColor[line.key as keyof typeof labelColor]}
               align="middle"
               opacity={line.label}
             />
           ))}
-          <Svg text="2.6k" x={370} y={() => y(2383) - 12} size={20} weight={600} color={C.pink} align="middle" opacity={lines[0].oldLabel} />
+          <Svg text="2.6k" x={470} y={() => y(2383) - 14} size={24} weight={600} color={C.pink} align="middle" opacity={lines[0].oldLabel} />
         </Node>
       </Node>
       <Node ref={cards}>
-        <Card x={990} title="Shop site" />
-        <LegendItem x={1498} color={C.cyan} text="Goose" />
-        <LegendItem x={1623} color={EXPRESS} text="Next.js" />
-        <Node x={1030} y={513}>
-          {shop.map(row => (
-            <Node>
-              {row.index < 3 ? <Line points={[[0, 65 + row.index * 75], [700, 65 + row.index * 75]]} stroke={GRID} lineWidth={1.5} opacity={row.group} /> : null}
-              <Svg text={row.title} x={0} y={32 + row.index * 75} size={22} weight={600} opacity={row.group} />
-              <Rect x={BAR_X} y={14 + row.index * 75} width={row.gooseWidth} height={18} radius={6} fill={C.cyan} anchor={[-1, -1]} />
-              <Rect x={BAR_X} y={38 + row.index * 75} width={row.nextWidth} height={18} radius={6} fill={EXPRESS} anchor={[-1, -1]} />
-              <Svg text={row.gooseLabel} x={() => BAR_X + row.gooseWidth() + 10} y={29 + row.index * 75} size={16} weight={600} color={C.cyan} opacity={row.gooseShow} />
-              <Svg text={row.nextLabel} x={() => BAR_X + row.nextWidth() + 10} y={53 + row.index * 75} size={16} weight={600} color={C.subtitle} opacity={row.nextShow} />
+        <Card x={1190} y={396} width={580} height={570} />
+        <T text={'FAILED REQUESTS\n512 CLIENTS'} x={1230} y={444} size={24} weight={600} color={C.cyan} lineHeight={32.4} letterSpacing={1.44} />
+        {failed.map(row => (
+          <Node>
+            <Node opacity={row.group}>
+              <T text={row.name} x={1230} y={540 + row.index * 130} size={26} weight={600} lineHeight={36} />
             </Node>
-          ))}
-        </Node>
+            <Rect x={1230} y={588 + row.index * 130} width={row.width} height={40} radius={10} fill={row.color} anchor={[-1, -1]} opacity={() => (row.width() > 0 ? 1 : 0)} />
+            <Svg ref={row.value} text={row.label} x={() => 1230 + row.width() + 14} y={620 + row.index * 130} size={26} weight={600} color={row.text} opacity={row.show} />
+          </Node>
+        ))}
       </Node>
-      <T ref={footer} text="One worker each, same machine." x={150} y={1016} size={20} lineHeight={24} color={MUTED} />
+      <T ref={footer} text="One worker each, same machine." x={150} y={984} size={22} lineHeight={27} color={MUTED} />
     </Node>,
   );
   const dashes = addDashes(stage(), [
@@ -179,14 +171,12 @@ export default makeScene2D(function* (view) {
   yield* all(scale(axisMax(178118), 0.6, easeInOutCubic), goose.end(1, 0.7, easeInOutCubic), delay(0.6, goose.label(1, 0.3)));
   yield* beginSlide('goose');
 
-  for (const row of shop) {
-    yield* all(row.group(1, 0.3), row.nextWidth(BAR_FULL, 0.5, easeOutCubic), delay(0.25, row.nextShow(1, 0.3)));
-    yield* beginSlide(`${STEP_IDS[row.index]}-next`);
-    // Goose only outgrows Next.js on pages per second; there Next.js rescales so Goose can end at full width.
-    const motions = [row.gooseWidth(row.goose > row.next ? BAR_FULL : Math.max(6, (BAR_FULL * row.goose) / row.next), 0.5, easeOutCubic), delay(0.25, row.gooseShow(1, 0.3))];
-    if (row.goose > row.next) motions.push(row.nextWidth((BAR_FULL * row.next) / row.goose, 0.6, easeInOutCubic));
+  for (const row of failed) {
+    const motions = [row.group(1, 0.3), row.width(Math.max(3, (FAIL_FULL * row.percent) / 100), 0.5, easeOutCubic), delay(0.25, row.show(1, 0.3))];
+    // The empty bar is the payoff, so the 0% label pulses to make sure it is read.
+    if (row.percent === 0) motions.push(delay(0.5, row.value().scale(1.35, 0.2, easeOutCubic).to(1, 0.35, easeInOutCubic)));
     yield* all(...motions);
-    yield* beginSlide(`${STEP_IDS[row.index]}-goose`);
+    yield* beginSlide(row.id);
   }
   yield* leave(stage());
 });

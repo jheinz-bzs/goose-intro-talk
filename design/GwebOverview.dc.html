@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Meet gweb</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/bizstream/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Poppins:wght@600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+.dash{animation:stream-in .6s cubic-bezier(0.34,1.56,0.64,1) both;animation-delay:calc(var(--d,0ms) * .5)}
+@keyframes stream-in{from{opacity:0;transform:translateX(160px)}}
+@media (prefers-reduced-motion: reduce){.dash{animation:none}}
+.card{background:#2A4C8F;border-radius:20px;padding:48px 40px 44px;display:flex;flex-direction:column;gap:30px}
+.card-head{display:flex;justify-content:space-between;align-items:baseline}
+.card-title{margin:0;font-size:24px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#56C5E8}
+.legend{display:flex;gap:22px;font-size:22px;color:#DCE8F5}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{display:inline-block;width:26px;height:10px;border-radius:9999px}
+.stat{display:flex;align-items:baseline;gap:18px}
+.stat b{font-family:'Poppins','Helvetica Neue',Arial,sans-serif;font-size:76px;line-height:1;font-weight:800;color:#FFFFFF}
+.stat span{font-size:28px;font-weight:500;color:#DCE8F5}
+.gmono{font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+.gcode{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0;position:absolute;background:#163470;border-radius:14px;box-sizing:border-box;padding:22px 26px;font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;color:#DCE8F5;line-height:34px}
+.ln{display:flex;white-space:nowrap;min-height:1em}
+.k{color:#56C5E8}.s{color:#9EECFB}.f{color:#FFB0B1}.d{color:#7F9AD1}
+.hl{background:rgba(86,197,232,.22);border-radius:6px;box-shadow:0 0 0 3px rgba(86,197,232,.22)}
+.abs{position:absolute}
+.ctitle{position:absolute;margin:0;font-size:24px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#56C5E8}
+.ctitle.plain{text-transform:none;letter-spacing:0;font-size:24px}
+.box{position:absolute;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:600;text-align:center;box-sizing:border-box}
+.chip{position:absolute;height:60px;border-radius:30px;background:#163470;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:26px;color:#FFFFFF;box-sizing:border-box}
+.cap{position:absolute;font-size:22px;color:#A9BEDF}
+svg text{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif}
+</style>
+</helmet>
+<div style="position: relative; width: 1920px; height: 1080px; box-sizing: border-box; padding: 110px 150px 0; display: flex; flex-direction: column; gap: 22px; background: #1F3D7A; font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; color: #FFFFFF; overflow: hidden;">
+  <div aria-hidden="true" style="position: absolute; top: 96px; right: -30px; display: flex; flex-direction: column; align-items: flex-end; gap: 12px;">
+    <div style="display: flex; gap: 10px;">
+      <div class="dash" style="--d: 0ms; width: 130px; height: 14px; border-radius: 9999px; background: #56C5E8;"></div>
+      <div class="dash" style="--d: 25ms; width: 60px; height: 14px; border-radius: 9999px; background: #163470;"></div>
+      <div class="dash" style="--d: 50ms; width: 110px; height: 14px; border-radius: 9999px; background: #3F64C8;"></div>
+      <div class="dash" style="--d: 75ms; width: 40px; height: 14px; border-radius: 9999px; background: #F2434A;"></div>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <div class="dash" style="--d: 100ms; width: 80px; height: 14px; border-radius: 9999px; background: #3F64C8;"></div>
+      <div class="dash" style="--d: 125ms; width: 150px; height: 14px; border-radius: 9999px; background: #56C5E8;"></div>
+      <div class="dash" style="--d: 150ms; width: 50px; height: 14px; border-radius: 9999px; background: #163470;"></div>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <div class="dash" style="--d: 175ms; width: 46px; height: 14px; border-radius: 9999px; background: #56C5E8;"></div>
+      <div class="dash" style="--d: 200ms; width: 120px; height: 14px; border-radius: 9999px; background: #163470;"></div>
+      <div class="dash" style="--d: 225ms; width: 70px; height: 14px; border-radius: 9999px; background: #3F64C8;"></div>
+      <div class="dash" style="--d: 250ms; width: 100px; height: 14px; border-radius: 9999px; background: #56C5E8;"></div>
+    </div>
+  </div>
+
+  <p style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #56C5E8;">The Framework</p>
+  <h2 style="margin: 0; font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif; font-size: 96px; line-height: 1.05; font-weight: 800; letter-spacing: -0.01em;">Meet gweb</h2>
+  <p style="margin: 0; font-size: 34px; font-weight: 500; color: #DCE8F5;">Like Next.js, for Goose.</p>
+
+<div class="abs" style="left:150px;top:364px;width:480px;height:270px;background:#2A4C8F;border-radius:20px"></div><div class="abs" style="left:190px;top:390px;width:400px;text-align:left;font-size:26px;font-weight:600;color:#56C5E8;letter-spacing:.12em;text-transform:uppercase;">You write</div><div class="abs" style="left:720px;top:364px;width:480px;height:270px;background:#2A4C8F;border-radius:20px"></div><div class="abs" style="left:760px;top:390px;width:400px;text-align:left;font-size:26px;font-weight:600;color:#56C5E8;letter-spacing:.12em;text-transform:uppercase;">gweb builds</div><div class="abs" style="left:1290px;top:364px;width:480px;height:270px;background:#2A4C8F;border-radius:20px"></div><div class="abs" style="left:1330px;top:390px;width:400px;text-align:left;font-size:26px;font-weight:600;color:#56C5E8;letter-spacing:.12em;text-transform:uppercase;">You ship</div><svg class="abs" style="left:630px;top:479px" width="90" height="40" viewBox="0 0 90 40"><line x1="4" y1="20" x2="80" y2="20" stroke="#56C5E8" stroke-width="6" stroke-linecap="round"/><polyline points="66,6 84,20 66,34" fill="none" stroke="#56C5E8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="abs" style="left:1200px;top:479px" width="90" height="40" viewBox="0 0 90 40"><line x1="4" y1="20" x2="80" y2="20" stroke="#56C5E8" stroke-width="6" stroke-linecap="round"/><polyline points="66,6 84,20 66,34" fill="none" stroke="#56C5E8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="box" style="left:190px;top:436px;width:400px;height:72px;background:#163470;color:#fff;font-size:30px">pages · HTML</div><div class="box" style="left:190px;top:522px;width:400px;height:72px;background:#163470;color:#fff;font-size:30px">data · Goose</div><svg class="abs" style="left:760px;top:424px" width="400" height="150" viewBox="0 0 400 150"><rect x="30" y="8" width="110" height="46" rx="12" fill="#3F64C8"/><rect x="30" y="96" width="110" height="46" rx="12" fill="#8FA9E8"/><path d="M145 31 C200 31 190 75 220 75 M145 119 C200 119 190 75 220 75" fill="none" stroke="#56C5E8" stroke-width="6" stroke-linecap="round"/><rect x="225" y="38" width="110" height="74" rx="14" fill="#56C5E8"/></svg><div class="abs" style="left:740px;top:586px;width:440px;text-align:center;font-size:24px;font-weight:600;color:#DCE8F5;">everything compiles together</div><div class="box" style="left:1330px;top:436px;width:400px;height:126px;background:#56C5E8;color:#10264F;font-size:34px;font-weight:700">one native binary</div><div class="abs why" style="left:150px;top:654px;width:1620px;height:64px;border-radius:32px;background:#2A4C8F;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:600;color:#FFFFFF">No runtime, no node_modules. Copy one file and run it.</div><div class="abs" style="left:150px;top:744px;width:1620px;height:240px;background:#2A4C8F;border-radius:20px"></div><div class="abs" style="left:190px;top:762px;height:36px;display:flex;align-items:center;gap:12px;font-size:24px;font-weight:600;color:#DCE8F5">app/ folders → URLs</div><div class="gcode" style="left:190px;top:808px;width:1540px;min-height:150px;font-size:22px;line-height:34px;padding:12px 26px"></div><div class="abs gmono" style="left:216px;top:820px;font-size:22px;line-height:36px;color:#DCE8F5;white-space:nowrap">app/page.html</div><div class="abs" style="left:700px;top:820px;font-size:22px;line-height:36px;color:#56C5E8">→</div><div class="abs gmono" style="left:760px;top:820px;font-size:22px;line-height:36px;color:#9EECFB">/</div><div class="abs gmono" style="left:216px;top:856px;font-size:22px;line-height:36px;color:#DCE8F5;white-space:nowrap">app/blog/[id]/page.html</div><div class="abs" style="left:700px;top:856px;font-size:22px;line-height:36px;color:#56C5E8">→</div><div class="abs gmono" style="left:760px;top:856px;font-size:22px;line-height:36px;color:#9EECFB">/blog/7</div><div class="abs gmono" style="left:216px;top:892px;font-size:22px;line-height:36px;color:#DCE8F5;white-space:nowrap">app/api/time/route.goose</div><div class="abs" style="left:700px;top:892px;font-size:22px;line-height:36px;color:#56C5E8">→</div><div class="abs gmono" style="left:760px;top:892px;font-size:22px;line-height:36px;color:#9EECFB">/api/time</div></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":1080}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

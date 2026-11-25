@@ -7,20 +7,7 @@
       "items": [
         [
           "SAY",
-          "Goose is a memory-safe systems language, and this is the quick tour."
-        ],
-        [
-          "SAY",
-          "In about five minutes: what it is, how it builds, and how it treats memory."
-        ],
-        [
-          "ASK",
-          "Who here has fought a borrow checker or tuned a garbage collector?",
-          "Q-1"
-        ],
-        [
-          "LEAVE",
-          "The room knows this is a short, high-level tour."
+          "Hi everyone. Before I get into the CMS, I want to give you a quick tour of the language it's built on. It's called Goose. Quick show of hands: who here has fought a borrow checker, or spent a day tuning a garbage collector? Keep that in mind, because Goose takes a different road."
         ]
       ],
       "tips": [
@@ -34,19 +21,7 @@
       "items": [
         [
           "SAY",
-          "Goose is a systems language for fast programs that cannot corrupt memory."
-        ],
-        [
-          "SAY",
-          "Three points: it runs like C, it has no garbage collector, and it is safe by default."
-        ],
-        [
-          "SHOW",
-          "The hello program: one function, one print."
-        ],
-        [
-          "LEAVE",
-          "Fast like C, no GC, safe by default."
+          "Goose is a systems language. The pitch is three things. It runs about as fast as C. It has no garbage collector. And it's memory-safe by default. Here's hello world: one function, one print. If you've written C, Rust or Go, this already looks familiar."
         ]
       ],
       "tips": [
@@ -63,24 +38,16 @@
     "pipeline:source": {
       "items": [
         [
-          "SHOW",
-          "The first box: your source file, app.goose."
-        ],
-        [
           "SAY",
-          "You write ordinary Goose code in a .goose file."
+          "So how does it actually build? You start with plain Goose source, in a dot goose file."
         ]
       ]
     },
     "pipeline:c": {
       "items": [
         [
-          "SHOW",
-          "An arrow to the second box: one C file."
-        ],
-        [
           "SAY",
-          "Goose turns all your code into a single C file."
+          "The Goose compiler turns your whole program into one C file."
         ]
       ],
       "tips": [
@@ -93,16 +60,8 @@
     "pipeline:program": {
       "items": [
         [
-          "SHOW",
-          "The last arrow lands on your program."
-        ],
-        [
           "SAY",
-          "A C compiler does the rest, so you get a native, fast program."
-        ],
-        [
-          "LEAVE",
-          "Goose compiles to C and gets out of the way."
+          "Then a normal C compiler, like clang, turns that into a native program. So Goose gets the speed of C for free, and it gets out of the way."
         ]
       ],
       "tips": [
@@ -115,80 +74,70 @@
     "memory:typical": {
       "items": [
         [
-          "SHOW",
-          "The left panel: most languages have a stack and a heap."
-        ],
-        [
           "SAY",
-          "The heap needs a garbage collector, or you free memory by hand."
+          "Now the interesting part: memory. Most languages split memory into a stack and a heap. The heap is the messy part. Either a garbage collector cleans it up, or you free it by hand and hope you got it right."
         ]
       ]
     },
     "memory:goose": {
       "items": [
         [
-          "SHOW",
-          "The right panel starts as the same picture."
-        ],
+          "SAY",
+          "Goose starts from the same picture."
+        ]
+      ]
+    },
+    "memory:stacks": {
+      "items": [
         [
           "SAY",
-          "Same picture to start."
+          "But instead of one stack, it uses stacks, plural."
+        ]
+      ]
+    },
+    "memory:pop": {
+      "items": [
+        [
+          "SAY",
+          "And it gets rid of the heap completely. Memory is handed out in order, and it's given back the moment a block of code ends. That's the whole model."
+        ]
+      ],
+      "tips": [
+        [
+          "For detail questions",
+          "Goose uses data stacks with a bump pointer: allocating moves a pointer, leaving a block resets it. See ~/Documents/goose/goose-sdk/goose-v2026.4-macos-arm64/docs/goose_spec.md."
         ]
       ]
     },
     "heap:alloc": {
       "items": [
         [
-          "SHOW",
-          "The first column: cheap to allocate."
-        ],
-        [
           "SAY",
-          "New data goes on top of the stack, like stacking plates."
+          "Why does that matter? First, allocating is cheap. New data just goes on top of the stack, like adding a plate to a pile."
         ]
       ]
     },
     "heap:cleanup": {
       "items": [
         [
-          "SHOW",
-          "The second column: cleanup is automatic."
-        ],
-        [
           "SAY",
-          "When a block ends, its memory is gone. No collector, no pauses."
+          "Second, cleanup is automatic. When a block ends, its memory is gone. There's no collector running in the background, and no pauses."
         ]
       ]
     },
     "heap:stays": {
       "items": [
         [
-          "SHOW",
-          "The third column: data stays put."
-        ],
-        [
           "SAY",
-          "Values never move, so references to them stay valid."
-        ],
-        [
-          "LEAVE",
-          "No heap means simpler memory, faster programs, and no pauses."
+          "Third, data never moves. So a reference you hold stays valid. Simpler memory, faster programs, no pauses."
         ]
       ]
     },
     "safety:top": {
       "items": [
         [
-          "SHOW",
-          "The top row: null and bounds."
-        ],
-        [
           "SAY",
-          "If a value can be missing, you have to check it."
-        ],
-        [
-          "SAY",
-          "Every array access is checked."
+          "Being safe means the compiler stops whole classes of bugs. If a value might be missing, you have to check it before you use it. No null crashes. And every array access is bounds-checked."
         ]
       ],
       "tips": [
@@ -205,20 +154,8 @@
     "safety:bottom": {
       "items": [
         [
-          "SHOW",
-          "The bottom row: dangling references and data races."
-        ],
-        [
           "SAY",
-          "A reference cannot outlive the data it points to."
-        ],
-        [
-          "SAY",
-          "Threads do not share memory; they pass messages."
-        ],
-        [
-          "LEAVE",
-          "The compiler catches these before your program ever runs."
+          "A reference can't outlive the data it points at, so there are no dangling pointers. And threads don't share memory. They pass messages, so there are no data races. All of this is caught at compile time, before your program ever runs."
         ]
       ],
       "tips": [
@@ -232,11 +169,7 @@
       "items": [
         [
           "SAY",
-          "Speed and memory against C++ and Rust, from the public Goose benchmarks."
-        ],
-        [
-          "SAY",
-          "The left card is how much better Goose is: above 1x means Goose wins."
+          "Okay, but is it actually fast? These numbers are from the public Goose benchmarks, against C++ and Rust. On the left, anything past one x means Goose wins."
         ]
       ],
       "tips": [
@@ -249,12 +182,8 @@
     "bench:everyday": {
       "items": [
         [
-          "SHOW",
-          "The right card: memory for 16 million records. Everyday C++ is 713 MB."
-        ],
-        [
           "SAY",
-          "Idiomatic C++ is the baseline here."
+          "On the right is memory for sixteen million records. Everyday C++, the way most people write it, uses 713 megabytes."
         ]
       ]
     },
@@ -262,7 +191,7 @@
       "items": [
         [
           "SAY",
-          "Expert C++ gets down to 557 MB. Notice the bar above shrinks to keep the scale fair."
+          "Expert, hand-tuned C++ gets that down to 557."
         ]
       ]
     },
@@ -270,7 +199,7 @@
       "items": [
         [
           "SAY",
-          "Safe Rust lands at 593 MB, in the same neighbourhood."
+          "Safe Rust lands at 593. Same neighborhood."
         ]
       ]
     },
@@ -278,11 +207,7 @@
       "items": [
         [
           "SAY",
-          "Goose does it in 149 MB. Watch how everything else stretches to keep the scale honest."
-        ],
-        [
-          "LEAVE",
-          "Goose is fast and lean."
+          "And Goose does it in 149 megabytes. About a quarter of everyone else. So: fast, and lean."
         ]
       ]
     },
@@ -290,11 +215,7 @@
       "items": [
         [
           "SAY",
-          "So I wondered: fast language, fast web server? I built one and measured it."
-        ],
-        [
-          "SAY",
-          "Left, a todo API under load. Right, a shop site."
+          "So naturally I wondered: fast language, fast web server? I built one and load-tested it. On the left is a todo API under load. On the right is how many requests fail."
         ]
       ],
       "tips": [
@@ -308,7 +229,7 @@
       "items": [
         [
           "SAY",
-          "Flask, a typical Python server, tops out around 2.5 thousand requests a second."
+          "Flask, a typical Python server, tops out around two and a half thousand requests a second."
         ]
       ]
     },
@@ -316,7 +237,7 @@
       "items": [
         [
           "SAY",
-          "Express handles about 59 thousand, and Flask is squashed against the floor."
+          "Express on Node does about fifty-nine thousand. Flask is now basically flat on the floor."
         ]
       ]
     },
@@ -324,83 +245,289 @@
       "items": [
         [
           "SAY",
-          "Goose reaches about 178 thousand, three times Express. Everything else shrinks again."
+          "And Goose does about a hundred and seventy-eight thousand. That's three times Express."
         ]
       ]
     },
-    "web:pages-next": {
+    "web:fail1-flask": {
       "items": [
         [
-          "SHOW",
-          "Shop site: requests per second."
-        ],
-        [
           "SAY",
-          "Next.js, a popular JavaScript framework, serves 13.6 thousand requests a second."
+          "Now let's look at failures at five hundred twelve clients. Flask drops sixty-three to sixty-five percent of requests."
+        ]
+      ],
+      "tips": [
+        [
+          "Source",
+          "goose-bench results/SUMMARY.md, failed requests with keep-alive."
         ]
       ]
     },
-    "web:pages-goose": {
+    "web:fail2-express": {
       "items": [
         [
           "SAY",
-          "Goose serves 223 thousand requests a second, about sixteen times more."
-        ],
-        [
-          "SAY",
-          "Production Node runs more workers, so the gap shrinks on a bigger box. This is one worker each."
+          "Express drops twenty-one to thirty-four percent."
         ]
       ]
     },
-    "web:memory-next": {
+    "web:fail3-goose": {
       "items": [
         [
           "SAY",
-          "Memory at rest: Next.js sits at 105 MB."
+          "Goose drops zero. Not one request."
         ]
       ]
     },
-    "web:memory-goose": {
+    "gweb:intro": {
       "items": [
         [
           "SAY",
-          "Goose idles at 2 MB."
+          "That web server grew into a framework called gweb, and the CMS I'm about to show you is built on it. So here's gweb in a few quick slides."
+        ]
+      ],
+      "tips": [
+        [
+          "Source",
+          "goose-web README.md and docs/ARCHITECTURE.md, v1.8.8."
         ]
       ]
     },
-    "web:startup-next": {
+    "gweb:write": {
       "items": [
         [
           "SAY",
-          "Next.js takes 267 ms to serve the first page."
+          "You write your pages in HTML, and your data code in Goose."
         ]
       ]
     },
-    "web:startup-goose": {
+    "gweb:build": {
       "items": [
         [
           "SAY",
-          "Goose does it in 6 ms."
+          "gweb compiles all of it together."
         ]
       ]
     },
-    "web:deploy-next": {
+    "gweb:ship": {
       "items": [
         [
           "SAY",
-          "The Next.js deploy is 375 MB."
+          "And what comes out is one native binary."
         ]
       ]
     },
-    "web:deploy-goose": {
+    "gweb:why": {
       "items": [
         [
           "SAY",
-          "Goose deploys at 0.4 MB."
-        ],
+          "No runtime to install, no node modules folder. You copy one file to a server and run it."
+        ]
+      ]
+    },
+    "gweb:routes": {
+      "items": [
         [
-          "LEAVE",
-          "A fast language gives you a fast, tiny web server."
+          "SAY",
+          "Routing is folders. A folder under app is a route, the same idea as Next.js. Folders in, one binary out."
+        ]
+      ]
+    },
+    "gwebtemplates:intro": {
+      "items": [
+        [
+          "SAY",
+          "So what happens when a request comes in?"
+        ]
+      ]
+    },
+    "gwebtemplates:ask": {
+      "items": [
+        [
+          "SAY",
+          "A browser asks for a page."
+        ]
+      ]
+    },
+    "gwebtemplates:find": {
+      "items": [
+        [
+          "SAY",
+          "Step one, the binary finds the page that matches the URL."
+        ]
+      ]
+    },
+    "gwebtemplates:load": {
+      "items": [
+        [
+          "SAY",
+          "Step two, it loads the data. That's just a normal Goose function, called load, in page dot goose."
+        ]
+      ]
+    },
+    "gwebtemplates:fill": {
+      "items": [
+        [
+          "SAY",
+          "Step three, it fills in the template. Anything in curly braces is a Goose expression."
+        ]
+      ]
+    },
+    "gwebtemplates:answer": {
+      "items": [
+        [
+          "SAY",
+          "And the finished HTML goes back to the browser."
+        ]
+      ]
+    },
+    "gwebtemplates:why": {
+      "items": [
+        [
+          "SAY",
+          "The key thing: templates are compiled into the binary. So if you typo a field name, the build fails. Your users never see a broken page."
+        ]
+      ]
+    },
+    "gwebcomponents:intro": {
+      "items": [
+        [
+          "SAY",
+          "Next, interactivity. Most of a page is just HTML. Only a few parts actually need to react."
+        ]
+      ]
+    },
+    "gwebcomponents:page": {
+      "items": [
+        [
+          "SAY",
+          "Here's a page that's mostly static."
+        ]
+      ]
+    },
+    "gwebcomponents:button": {
+      "items": [
+        [
+          "SAY",
+          "One piece of it is a component: a little counter button."
+        ]
+      ]
+    },
+    "gwebcomponents:tick": {
+      "items": [
+        [
+          "SAY",
+          "Click it, and only the number changes. Nothing else on the page gets touched."
+        ]
+      ]
+    },
+    "gwebcomponents:split": {
+      "items": [
+        [
+          "SAY",
+          "One component source becomes two outputs. The server renders the first HTML, so the page shows up instantly. The browser gets a small piece of JavaScript just for that component."
+        ]
+      ]
+    },
+    "gwebcomponents:why": {
+      "items": [
+        [
+          "SAY",
+          "Reactivity is compiled. gweb knows at build time which parts depend on which state, so only what changed updates."
+        ]
+      ]
+    },
+    "gwebcomponents:code": {
+      "items": [
+        [
+          "SAY",
+          "Here's the whole component. One state variable, one function, one button. That at-state is what makes it reactive. If you've used Svelte, this will feel familiar."
+        ]
+      ]
+    },
+    "gwebcomponents:runtime": {
+      "items": [
+        [
+          "SAY",
+          "And the runtime the browser downloads is about two kilobytes, gzipped. So that's gweb. Now, how does it compare?"
+        ]
+      ],
+      "tips": [
+        [
+          "Check before quoting",
+          "Core runtime is 2,131 B gzip per the coordinator brief; not re-measured."
+        ]
+      ]
+    },
+    "gwebvsnext:intro": {
+      "items": [
+        [
+          "SAY",
+          "I built the same shop site twice: once in gweb, once in Next.js. Same machine, one worker each."
+        ]
+      ]
+    },
+    "gwebvsnext:pages-next": {
+      "items": [
+        [
+          "SAY",
+          "Requests per second. Next.js serves about thirteen and a half thousand."
+        ]
+      ]
+    },
+    "gwebvsnext:pages-goose": {
+      "items": [
+        [
+          "SAY",
+          "gweb serves two hundred twenty-three thousand. To be fair, production Node usually runs several workers, so the gap shrinks on a bigger box. But one-for-one, that's the difference."
+        ]
+      ]
+    },
+    "gwebvsnext:memory-next": {
+      "items": [
+        [
+          "SAY",
+          "Memory at idle. Next.js sits at a hundred and five megabytes."
+        ]
+      ]
+    },
+    "gwebvsnext:memory-goose": {
+      "items": [
+        [
+          "SAY",
+          "gweb sits at two."
+        ]
+      ]
+    },
+    "gwebvsnext:startup-next": {
+      "items": [
+        [
+          "SAY",
+          "Startup time. Next.js takes about two hundred sixty-seven milliseconds."
+        ]
+      ]
+    },
+    "gwebvsnext:startup-goose": {
+      "items": [
+        [
+          "SAY",
+          "gweb starts in six."
+        ]
+      ]
+    },
+    "gwebvsnext:deploy-next": {
+      "items": [
+        [
+          "SAY",
+          "And deploy size. Next.js ships three hundred seventy-five megabytes."
+        ]
+      ]
+    },
+    "gwebvsnext:deploy-goose": {
+      "items": [
+        [
+          "SAY",
+          "gweb ships less than half a megabyte. A fast language gives you a fast, tiny web server."
         ]
       ]
     },
@@ -408,53 +535,13 @@
       "items": [
         [
           "SAY",
-          "Replace the placeholder title [NEXT SECTION TITLE] with the real section title before presenting."
-        ],
-        [
-          "SAY",
-          "Recap: compiles to C, stacks not a heap, checked before it runs."
-        ],
-        [
-          "LEAVE",
-          "Hand off to the next section."
-        ]
-      ]
-    },
-    "memory:stacks": {
-      "items": [
-        [
-          "SHOW",
-          "Stack becomes Stacks."
-        ],
-        [
-          "SAY",
-          "Goose starts from the same picture but uses stacks."
-        ]
-      ]
-    },
-    "memory:pop": {
-      "items": [
-        [
-          "SHOW",
-          "The Heap chip inflates and pops."
-        ],
-        [
-          "SAY",
-          "...and drops the heap entirely."
-        ],
-        [
-          "SAY",
-          "Memory is handed out in order and given back when a block ends."
-        ],
-        [
-          "LEAVE",
-          "Goose only uses stacks."
+          "So that's Goose in a nutshell. It compiles to C, it uses stacks instead of a heap, and it catches memory bugs before your code runs. Now let's look at what I built with it."
         ]
       ],
       "tips": [
         [
-          "For detail questions",
-          "Goose uses data stacks with a bump pointer: allocating moves a pointer, leaving a block resets it. See ~/Documents/goose/goose-sdk/goose-v2026.4-macos-arm64/docs/goose_spec.md."
+          "Before presenting",
+          "Replace [NEXT SECTION TITLE] on this slide with the real section title."
         ]
       ]
     }
